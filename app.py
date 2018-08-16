@@ -37,7 +37,7 @@ def effect_setting(effect_id):
         name = 'onomatopoeia'
 
     socketClient.send(effect_id.encode('utf-8'))
-    return jsonify({'id': id, 'name': name})
+    return jsonify({'id': effect_id, 'name': name})
 
 
 def write_log_file(sensor, z):
