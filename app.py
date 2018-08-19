@@ -22,7 +22,7 @@ def effect_setting(effect_id):
     try:
         _ = int(effect_id)
     except ValueError:
-        return jsonify('idは数値する必要があります')
+        return jsonify('idは数字にする必要があります')
 
     processingHost = "127.0.0.1"  # Processingで立ち上げたサーバのIPアドレス
     processingPort = 10002  # Processingで設定したポート番号
@@ -31,9 +31,9 @@ def effect_setting(effect_id):
     socketClient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     socketClient.connect((processingHost, processingPort))
 
-    if effect_id == 1:
+    if effect_id == '1':
         name = 'normal_hamon'
-    elif effect_id == 2:
+    elif effect_id == '2':
         name = 'onomatopoeia'
 
     socketClient.send(effect_id.encode('utf-8'))
