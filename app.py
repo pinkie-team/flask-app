@@ -6,14 +6,28 @@ import socket
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
-def detect_noise():
-    z = request.args.get('z')
-    sensor = request.args.get('sensor')
+@app.route('/motion', methods=['POST'])
+def detect_noise_by_motion():
+    z = request.json['z']
+    sensor = request.json['sensor']
     print(z, sensor)
 
-    write_log_file(sensor, z)
+    write_log_file(sensor, z, 'motion')
     return jsonify({'z': z, 'sensor': sensor})
+
+
+@app.route('/sound', methods=['POST'])
+def detect_noise_by_sound():
+    volume = request.form['volume']
+    sensor = request.form['sensor']
+    crop = request.files['crop']
+
+    print(request.form['volume'])
+    print(request.form['sensor'])
+    print(request.files['crop'])
+
+    write_log_file(sensor, volume, 'sound')
+    return jsonify({'volume': volume, 'sensor': sensor, 'filename': crop.filename})
 
 
 @app.route('/effect/<effect_id>')
@@ -40,17 +54,17 @@ def effect_setting(effect_id):
     return jsonify({'id': effect_id, 'name': name})
 
 
-def write_log_file(sensor, z):
-    os.makedirs('log', exist_ok=True)
+def write_log_file(sensor, value, algorithm):
+    os.makedirs('log/{}'.format(algorithm), exist_ok=True)
 
     now = datetime.datetime.now()
     now_str = now.strftime("%Y/%m/%d %H:%M:%S")
-    file_path = 'log/{}.csv'.format(sensor)
+    file_path = 'log/{}/{}.csv'.format(algorithm, sensor)
 
     file = open(file_path, 'a')
 
     if len(open(file_path).readlines()) == 0:
-        file.write('{},{},{}'.format(now_str, sensor, z))
+        file.write('{},{},{}'.format(now_str, sensor, value))
 
     file.close()
 
