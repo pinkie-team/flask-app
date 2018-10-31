@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-import os
 import datetime
 import socket
 
@@ -55,11 +54,9 @@ def effect_setting(effect_id):
 
 
 def write_log_file(sensor, value, algorithm):
-    os.makedirs('log/{}'.format(algorithm), exist_ok=True)
-
     now = datetime.datetime.now()
     now_str = now.strftime("%Y/%m/%d %H:%M:%S")
-    file_path = 'log/{}/{}.csv'.format(algorithm, sensor)
+    file_path = 'log/{}_{}.csv'.format(algorithm, sensor)
 
     file = open(file_path, 'a')
 
