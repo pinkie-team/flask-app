@@ -19,14 +19,14 @@ def detect_noise_by_motion():
 def detect_noise_by_sound():
     volume = request.form['volume']
     sensor = request.form['sensor']
-    crop = request.files['crop']
+    # crop = request.files['crop']
 
     print(request.form['volume'])
     print(request.form['sensor'])
-    print(request.files['crop'])
+    # print(request.files['crop'])
 
     write_log_file(sensor, volume, 'sound')
-    return jsonify({'volume': volume, 'sensor': sensor, 'filename': crop.filename})
+    return jsonify({'volume': volume, 'sensor': sensor})
 
 
 @app.route('/effect/<effect_id>')
