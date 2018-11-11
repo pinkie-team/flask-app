@@ -17,12 +17,12 @@ def detect_noise_by_motion():
 
 @app.route('/sound', methods=['POST'])
 def detect_noise_by_sound():
-    volume = request.form['volume']
-    sensor = request.form['sensor']
+    volume = request.json['volume']
+    sensor = request.json['sensor']
     # crop = request.files['crop']
 
-    print(request.form['volume'])
-    print(request.form['sensor'])
+    print(request.json['volume'])
+    print(request.json['sensor'])
     # print(request.files['crop'])
 
     write_log_file(sensor, volume, 'sound')
